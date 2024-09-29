@@ -1,0 +1,155 @@
+.skeleton {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 24px;
+  .line {
+    height: 12px;
+    margin-bottom: 6px;
+    border-radius: 2px;
+    background: rgba(130, 130, 130, 0.2);
+    background: linear-gradient(
+      to right,
+      rgba(130, 130, 130, 0.2) 8%,
+      rgba(130, 130, 130, 0.3) 18%,
+      rgba(130, 130, 130, 0.2) 33%
+    );
+    background-size: 800px 100px;
+    animation: wave-lines 2s infinite ease-out;
+  }
+  .img-demo {
+    height: 220px;
+  }
+}
+
+.skeleton-left {
+  width: calc(25% - 24px);
+  flex: 1;
+  padding-right: 15px;
+}
+
+.skeleton-flex {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 24px;
+  padding: 24px;
+  .text--container {
+    width: 50%;
+  }
+  .img-demo {
+    width: 50%;
+    height: 300px;
+  }
+}
+.w70 {
+  width: 70%;
+}
+.w60 {
+  width: 60%;
+}
+.w100 {
+  width: 100%;
+}
+
+.padding-container {
+  // padding: 12px;
+  margin-left: 12px;
+  justify-content: center;
+}
+
+@keyframes wave-lines {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+@keyframes wave-squares {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .skeleton {
+    .skeleton-left {
+      flex: unset;
+      width: calc(50% - 24px);
+      margin-bottom: 24px;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .skeleton-flex {
+    flex-direction: column;
+    .text--container {
+      width: 100%;
+    }
+    .img-demo {
+      width: 100%;
+    }
+  }
+}
+@media (max-width: 600px) {
+  .skeleton {
+    .skeleton-left {
+      flex: unset;
+      width: calc(100% - 0px);
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.loader-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 100%;
+  margin: auto;
+}
+.loading-icon {
+  color: $primaryColor;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: currentColor;
+    animation: loading-icon 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    &:nth-child(1) {
+      left: 8px;
+      animation-delay: -0.24s;
+    }
+    &:nth-child(2) {
+      left: 32px;
+      animation-delay: -0.12s;
+    }
+    &:nth-child(3) {
+      left: 56px;
+      animation-delay: 0s;
+    }
+  }
+}
+
+@keyframes loading-icon {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}
