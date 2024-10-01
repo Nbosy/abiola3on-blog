@@ -4,11 +4,11 @@ import supabase from "../../config/supabaseClient";
 import Button from "../../Utils/Button";
 import PanelMainLayout from "../../layout/PanelMainLayout";
 
-
 const CreateUser = function () {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [revealPassword, setRevealPassword] = useState(false);
@@ -18,13 +18,13 @@ const CreateUser = function () {
   };
 
   const navigateTo = useNavigate();
-  
+
   const handleSignUp = async (e) => {
     e.preventDefault();
-    
+
     setIsLoading(true);
     setErrorMessage(null);
-    
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email: email,
@@ -32,6 +32,7 @@ const CreateUser = function () {
         options: {
           data: {
             full_name: fullname,
+            role: selectedRole,
           },
         },
       });
@@ -100,6 +101,21 @@ const CreateUser = function () {
             <small className="visibility-toggle" onClick={toggleVisibility}>
               {revealPassword ? "Hide" : "Show"}
             </small>
+          </div>
+          <div>
+            <label>Assign a Role</label>
+            <select
+              name="topic"
+              className="input-field"
+              value={selectedRole}
+              required
+              onChange={(e) => setSelectedRole(e.target.value)}
+            >
+              <option value="">Select a category</option>
+              <option value="admin">Admin</option>
+              <option value="editor">Editor</option>
+              <option value="user">User</option>
+            </select>
           </div>
 
           {errorMessage && (
