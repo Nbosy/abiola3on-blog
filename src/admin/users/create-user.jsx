@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../config/supabaseClient";
+import { toast, ToastContainer } from "react-toastify";
 import Button from "../../Utils/Button";
 import PanelMainLayout from "../../layout/PanelMainLayout";
 
@@ -26,27 +27,36 @@ const CreateUser = function () {
     setErrorMessage(null);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_USER_API_URL}/create-user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
             full_name: fullname,
             role: selectedRole,
-          },
-        },
-      });
-      if (error) throw error;
-      if (data) {
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
         navigateTo("../admin-panel/manage-users", {
           state: { message: "User created successfully!" },
         });
-        console.log(data);
+      } else {
+        setErrorMessage(
+          result.error || "Error creating user, please try again"
+        );
       }
     } catch (error) {
       console.error("Sign up error", error);
-      setErrorMessage("There's an error signing up, please try again");
-
+      toast.error("An error occured");
       setIsLoading(false);
     }
   };
@@ -64,10 +74,10 @@ const CreateUser = function () {
         <h2 className="page-title">Create User</h2>
         <form className="contact-form">
           <div>
-            <label htmlFor="fullname">Fullname</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
-              name="name"
+              name="username"
               className="input-field"
               placeholder="e.g John Doe"
               value={fullname}
@@ -139,6 +149,7 @@ const CreateUser = function () {
               </button> */}
         </form>
       </div>
+      <ToastContainer />
     </PanelMainLayout>
   );
 };
